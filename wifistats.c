@@ -7,35 +7,38 @@
 
 
 #include <ctype.h>
-#define Macs	500 //error because cant fit 23000 entries in?
+#define Macs	500     // Maximum number of Mac Addrresses
 
-#define OUIs	25000
-#define vname   90
+#define OUIs	25000   // Max number of OUIs
+#define vname   90      // Max length of vendor name
 
-#define LINESIZE 128
+#define LINESIZE 128    //Maximum linesize of file
 
 
-
-int readfile (char condition[], char filename[]){
+//  READ THE SCENARIO FILE (NO NEED TO CHECK FOR ANY ERRORS)
+int read_scenario_file1 (char condition[], char filename[]){
 
     char transmitter[Macs][48]; //Mac addresses require exactly 48 bytes;
 
     char receiver[Macs][48];
 
     char tHold[48]; // i.e. transmitterHold
-    char rHold[48];
-    char bHold[16]; //maybe increase just incase
-    int noOfMacs = 0;
-    char *value;
+    char rHold[48]; // i.e. receivererHold
+    char bHold[16]; // i.e. bytesHold
+    int noOfMacs = 0;   
+    char *value;    //pointer, each value will be passed to and stored in either rHold,tHold or bHold
     int bytes[Macs];
     char line[LINESIZE];
 
     int i = 0;
+
+    //  ATTEMPT TO OPEN NAMED FILE
     FILE *fp = fopen(filename, "r");
     if(fp == NULL){
         perror(filename);
         exit(EXIT_FAILURE);
     }
+    //  READ EVENTS UNTIL END-OF-FILE REACHED
     while(fgets(line, sizeof(line), fp)){ 
         value = strtok(line, "\t");
         value = strtok(NULL, "\t");
@@ -51,7 +54,8 @@ int readfile (char condition[], char filename[]){
 
         strcpy(bHold, value);
      
-        
+    //Detect the conditions, t for transmiter and r for receiver
+    //    
 if (strcmp(condition, "t")==0){
        
             for(int j = 0; j <= i; j++){
@@ -106,6 +110,7 @@ fclose(fp);
 
 }
 
+//  READ THE SCENARIO FILE (NO NEED TO CHECK FOR ANY ERRORS)
 int readfileOUI (char condition[], char macFile[], char vendorFile[]){
     char transmitter[Macs][48]; //Mac addresses require exactly 48 bytes;
 
@@ -123,6 +128,7 @@ int readfileOUI (char condition[], char macFile[], char vendorFile[]){
     char line[LINESIZE];
 
     int i = 0;
+    //  READ EVENTS UNTIL END-OF-FILE REACHED    
     FILE *mfp = fopen(macFile, "r");
     if(mfp == NULL){
         perror(macFile);
@@ -180,10 +186,13 @@ if (strcmp(condition, "t")==0){
                 }
            }
        }
+    //go to the next line
     i++;
 
     }
     i = 0;
+    
+    //  READ EVENTS UNTIL END-OF-FILE REACHED
     while(fgets(line, sizeof(line), vfp)){ 
         value = strtok(line, "\t");
         strcpy(OUI[i], value);
@@ -224,7 +233,8 @@ if (strcmp(condition, "t")==0){
     if (totalBytes > 0){
         printf("??:??:??\tUNKNOWN-VENDOR\t%i\n",totalBytes);
     }
-    
+
+//  END OF SCENARIO FILE, CLOSE FILE,     
 fclose(mfp);
 
     
@@ -240,7 +250,7 @@ int main(int argc, char *argv[])
 
 
     if (argc == 3){                     //if 3 args, call first function
-        readfile(argv[1],argv[2]);
+        read_scenario_file1(argv[1],argv[2]);
 
     }
     else if (argc == 4){
