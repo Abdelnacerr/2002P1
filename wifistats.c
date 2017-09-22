@@ -1,3 +1,10 @@
+/*
+   CITS2002 Project 1 2017
+   Name(s):             Mohamed Abdinasir ( Harrison Carter-Turner )
+   Student number(s):   22046631 (, student-number2)
+   Date:                Friday 22 Sept 2017
+*/
+
 #include <stdio.h>
 
 #include <stdlib.h>
@@ -15,7 +22,7 @@
 #define LINESIZE 128    //Maximum linesize of file
 
 
-//  READ THE SCENARIO FILE (NO NEED TO CHECK FOR ANY ERRORS)
+//  READ THE SCENARIO FILE 
 int read_scenario_file1 (char condition[], char filename[]){
 
     char transmitter[Macs][48]; //Mac addresses require exactly 48 bytes;
@@ -38,7 +45,7 @@ int read_scenario_file1 (char condition[], char filename[]){
         perror(filename);
         exit(EXIT_FAILURE);
     }
-    //  READ EVENTS UNTIL END-OF-FILE REACHED
+    //  READ Macs UNTIL END-OF-FILE REACHED
     while(fgets(line, sizeof(line), fp)){ 
         value = strtok(line, "\t");
         value = strtok(NULL, "\t");
@@ -47,15 +54,15 @@ int read_scenario_file1 (char condition[], char filename[]){
 
         
         value = strtok(NULL, "\t");
-
-        strcpy(rHold, value);
+    //store the value pointed to by "value" in rHold
+        strcpy(rHold, value); 
 
         value = strtok(NULL, "\n");
-
-        strcpy(bHold, value);
+        //store the value pointed to by "value" in rHold
+        strcpy(bHold, value); 
      
-    //Detect the conditions, t for transmiter and r for receiver
-    //    
+//Detect the conditions, t for transmiter and r for receiver
+     
 if (strcmp(condition, "t")==0){
        
             for(int j = 0; j <= i; j++){
@@ -87,6 +94,7 @@ if (strcmp(condition, "t")==0){
                 }
            }
        }
+        //go to the next line   
     i++;
 
     }
@@ -110,7 +118,7 @@ fclose(fp);
 
 }
 
-//  READ THE SCENARIO FILE (NO NEED TO CHECK FOR ANY ERRORS)
+//  READ THE SCENARIO FILE
 int readfileOUI (char condition[], char macFile[], char vendorFile[]){
     char transmitter[Macs][48]; //Mac addresses require exactly 48 bytes;
 
@@ -140,14 +148,15 @@ int readfileOUI (char condition[], char macFile[], char vendorFile[]){
         exit(EXIT_FAILURE);
     }
     while(fgets(line, sizeof(line), mfp)){ 
-        value = strtok(line, "\t");
+
+        value = strtok(line, "\t");         // Read untill we encounter a tab character
         value = strtok(NULL, "\t");
-        strcpy(tHold, value);
+        strcpy(tHold, value);               //Copy that value into tHold     
         tHold[8] = '\0';
 
-        value = strtok(NULL, "\t");
+        value = strtok(NULL, "\t");         // Read untill we encounter a tab character
 
-        strcpy(rHold, value);
+        strcpy(rHold, value);               //Copy that value into rHold
         rHold[8] = '\0';
 
         value = strtok(NULL, "\n");
@@ -155,6 +164,7 @@ int readfileOUI (char condition[], char macFile[], char vendorFile[]){
         strcpy(bHold, value);
         totalBytes += atoi(bHold);
         
+
 if (strcmp(condition, "t")==0){
        
             for(int j = 0; j <= i; j++){
@@ -191,7 +201,7 @@ if (strcmp(condition, "t")==0){
 
     }
     i = 0;
-    
+
     //  READ EVENTS UNTIL END-OF-FILE REACHED
     while(fgets(line, sizeof(line), vfp)){ 
         value = strtok(line, "\t");
