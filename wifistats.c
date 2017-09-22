@@ -239,15 +239,15 @@ int main(int argc, char *argv[])
 //ENSURE THAT WE HAVE THE REQUIRED NUMBER OF COMMAND-LINE ARGUMENTS
 
 
-    if (argc == 3){
+    if (argc == 3){                     //if 3 args, call first function
         readfile(argv[1],argv[2]);
 
     }
     else if (argc == 4){
-        readfileOUI(argv[1], argv[2], argv[3]);
+        readfileOUI(argv[1], argv[2], argv[3]);     //if 4 args, call second function and execute
     }
     else{
-        printf("Usage: %s scenariofile\n", argv[0]);
+        printf("Usage: %s file1 condition (file2)\n", argv[0]);    //otheriwse give an error
 
         exit(EXIT_FAILURE);
 
